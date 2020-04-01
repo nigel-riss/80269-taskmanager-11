@@ -124,6 +124,8 @@ const getSortMarkup = () => {
 const getBoardMarkup = () => {
   return (
     `<section class="board container">
+      <div class="board__tasks">
+      </div>
     </section>`
   );
 };
@@ -395,4 +397,38 @@ const getLoadMoreMarkup = () => {
     `<button class="load-more" type="button">load more</button>`
   );
 };
+
+/**
+ * Renders html markup into html element
+ * @param {HTMLElement} parent parent html element
+ * @param {string} markup html markup to render
+ * @param {string} place place to render in parent element
+ */
+const renderMarkup = (parent, markup, place) => {
+  parent.insertAdjacentHTML(place, markup);
+}
+
+
+const mainControl = document.querySelector(`.main__control`);
+// Rendering menu
+renderMarkup(mainControl, getMenuMarkup(), `beforeend`);
+
+const mainElement = document.querySelector(`.main`);
+// Rendering filters
+renderMarkup(mainElement, getFiltersMarkup(), `beforeend`);
+// Rendering board
+renderMarkup(mainElement, getBoardMarkup(), `beforeend`);
+
+const board = document.querySelector(`.board`);
+// Rendering sorting
+renderMarkup(board, getSortMarkup(), `afterbegin`);
+
+const boardTasksContainer = document.querySelector(`.board__tasks`)
+// Rendering tasks
+renderMarkup(boardTasksContainer, getFormMarkup(), `beforeend`);
+renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
+renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
+renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
+// Rendering load more button
+renderMarkup(board, getLoadMoreMarkup(), `beforeend`);
 
