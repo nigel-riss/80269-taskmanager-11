@@ -425,7 +425,7 @@ const board = document.querySelector(`.board`);
 // Rendering sorting
 renderMarkup(board, getSortMarkup(), `afterbegin`);
 
-const boardTasksContainer = document.querySelector(`.board__tasks`)
+const boardTasksContainer = document.querySelector(`.board__tasks`);
 // Rendering tasks
 renderMarkup(boardTasksContainer, getFormMarkup(), `beforeend`);
 renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
