@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns main menu markup
  * @return {string} menu markup
@@ -406,7 +408,7 @@ const getLoadMoreMarkup = () => {
  */
 const renderMarkup = (parent, markup, place) => {
   parent.insertAdjacentHTML(place, markup);
-}
+};
 
 
 const mainControl = document.querySelector(`.main__control`);
@@ -431,4 +433,3 @@ renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
 renderMarkup(boardTasksContainer, getCardMarkup(), `beforeend`);
 // Rendering load more button
 renderMarkup(board, getLoadMoreMarkup(), `beforeend`);
-
