@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Returns main menu markup
  * @return {string} menu markup
