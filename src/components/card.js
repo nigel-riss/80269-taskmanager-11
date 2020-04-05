@@ -1,4 +1,4 @@
-export const getCardMarkup = () => {
+const getCardMarkup = () => {
   return (
     `<article class="card card--black">
       <div class="card__form">
@@ -45,3 +45,5 @@ export const getCardMarkup = () => {
     </article>`
   );
 };
+
+export default getCardMarkup;

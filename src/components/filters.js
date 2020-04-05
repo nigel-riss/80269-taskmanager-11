@@ -1,4 +1,4 @@
-export const getFiltersMarkup = () => {
+const getFiltersMarkup = () => {
   return (
     `<section class="main__filter filter container">
       <input
@@ -61,3 +61,5 @@ export const getFiltersMarkup = () => {
     </section>`
   );
 };
+
+export default getFiltersMarkup;

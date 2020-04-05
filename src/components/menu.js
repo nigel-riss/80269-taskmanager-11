@@ -1,4 +1,4 @@
-export const getMenuMarkup = () => {
+const getMenuMarkup = () => {
   return (
     `<section class="control__btn-wrap">
       <input
@@ -30,3 +30,5 @@ export const getMenuMarkup = () => {
     </section>`
   );
 };
+
+export default getMenuMarkup;

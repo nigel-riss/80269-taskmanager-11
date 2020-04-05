@@ -1,10 +1,10 @@
-import {getMenuMarkup} from './components/menu.js';
-import {getFiltersMarkup} from './components/filters.js';
-import {getSortMarkup} from './components/sort.js';
-import {getBoardMarkup} from './components/board.js';
-import {getFormMarkup} from './components/form.js';
-import {getCardMarkup} from './components/card.js';
-import {getLoadMoreMarkup} from './components/load-more.js';
+import getMenuMarkup from './components/menu.js';
+import getFiltersMarkup from './components/filters.js';
+import getSortMarkup from './components/sort.js';
+import getBoardMarkup from './components/board.js';
+import getFormMarkup from './components/form.js';
+import getCardMarkup from './components/card.js';
+import getLoadMoreMarkup from './components/load-more.js';
 
 const TASKS_COUNT = 3;
 

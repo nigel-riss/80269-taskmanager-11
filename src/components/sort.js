@@ -1,4 +1,4 @@
-export const getSortMarkup = () => {
+const getSortMarkup = () => {
   return (
     `<div class="board__filter-list">
       <a href="#" class="board__filter" data-sort-type="default">SORT BY DEFAULT</a>
@@ -7,3 +7,5 @@ export const getSortMarkup = () => {
     </div>`
   );
 };
+
+export default getSortMarkup;

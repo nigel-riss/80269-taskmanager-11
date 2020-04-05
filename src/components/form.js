@@ -1,4 +1,4 @@
-export const getFormMarkup = () => {
+const getFormMarkup = () => {
   return (
     `<article class="card card--edit card--yellow card--repeat">
       <form class="card__form" method="get">
@@ -199,3 +199,5 @@ export const getFormMarkup = () => {
     </article>`
   );
 };
+
+export default getFormMarkup;

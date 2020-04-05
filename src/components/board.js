@@ -1,4 +1,4 @@
-export const getBoardMarkup = () => {
+const getBoardMarkup = () => {
   return (
     `<section class="board container">
       <div class="board__tasks">
@@ -6,3 +6,5 @@ export const getBoardMarkup = () => {
     </section>`
   );
 };
+
+export default getBoardMarkup;
