@@ -6,6 +6,8 @@ import getFormMarkup from './components/form.js';
 import getCardMarkup from './components/card.js';
 import getLoadMoreMarkup from './components/load-more.js';
 
+import {filters} from './mocks/filters';
+
 const TASKS_COUNT = 3;
 
 const render = (parent, markup, place) => {
@@ -16,7 +18,7 @@ const mainControl = document.querySelector(`.main__control`);
 render(mainControl, getMenuMarkup(), `beforeend`);
 
 const mainElement = document.querySelector(`.main`);
-render(mainElement, getFiltersMarkup(), `beforeend`);
+render(mainElement, getFiltersMarkup(filters), `beforeend`);
 render(mainElement, getBoardMarkup(), `beforeend`);
 
 const board = document.querySelector(`.board`);
