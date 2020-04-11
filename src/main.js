@@ -7,12 +7,15 @@ import getCardMarkup from './components/card.js';
 import getLoadMoreMarkup from './components/load-more.js';
 
 import {filters} from './mocks/filters';
+import {generateTasksMock} from './mocks/tasks';
+
+import {render} from './utils/dom';
+
 
 const TASKS_COUNT = 3;
+const tasks = generateTasksMock(TASKS_COUNT);
+console.log(tasks);
 
-const render = (parent, markup, place) => {
-  parent.insertAdjacentHTML(place, markup);
-};
 
 const mainControl = document.querySelector(`.main__control`);
 render(mainControl, getMenuMarkup(), `beforeend`);
@@ -27,6 +30,6 @@ render(board, getSortMarkup(), `afterbegin`);
 const boardTasksContainer = document.querySelector(`.board__tasks`);
 render(boardTasksContainer, getFormMarkup(), `beforeend`);
 for (let i = 0; i < TASKS_COUNT; i++) {
-  render(boardTasksContainer, getCardMarkup(), `beforeend`);
+  render(boardTasksContainer, getCardMarkup(tasks[i]), `beforeend`);
 }
 render(board, getLoadMoreMarkup(), `beforeend`);

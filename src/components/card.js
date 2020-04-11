@@ -1,4 +1,6 @@
-const getCardMarkup = () => {
+const getCardMarkup = (task) => {
+  const {description} = task;
+
   return (
     `<article class="card card--black">
       <div class="card__form">
@@ -25,7 +27,7 @@ const getCardMarkup = () => {
           </div>
 
           <div class="card__textarea-wrap">
-            <p class="card__text">Example default task with default color.</p>
+            <p class="card__text">${description}</p>
           </div>
 
           <div class="card__settings">
