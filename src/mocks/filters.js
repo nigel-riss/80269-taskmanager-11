@@ -1,26 +1,26 @@
 export const filters = [
   {
-    name: `all`,
+    title: `all`,
     count: 14,
   },
   {
-    name: `overdue`,
+    title: `overdue`,
     count: 1,
   },
   {
-    name: `today`,
+    title: `today`,
     count: 0,
   },
   {
-    name: `favourites`,
+    title: `favourites`,
     count: 3,
   },
   {
-    name: `repeating`,
+    title: `repeating`,
     count: 5,
   },
   {
-    name: `archive`,
+    title: `archive`,
     count: 117,
   },
 ];
