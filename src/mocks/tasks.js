@@ -10,17 +10,19 @@ const TASKS_DESCRIPTIONS = [
 ];
 
 const generateRepeatingDays = () => {
-  const days = Array(DAYS.length)
-    .fill(``)
-    .map((day) => {
-      return {[day]: false};
-    });
+  let days;
 
-  // if (Math.random() > 0.5) {
-  //   days.fill(false);
-  // } else {
-  //   days.fill(Math.random() > 0.5);
-  // }
+  if (Math.random() > 0.5) {
+    days = DAYS.slice()
+      .map((day) => {
+        return {[day]: false};
+      });
+  } else {
+    days = DAYS.slice()
+      .map((day) => {
+        return {[day]: Math.random() > 0.5};
+      });
+  }
 
   return days;
 };
