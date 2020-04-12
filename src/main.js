@@ -13,6 +13,9 @@ import {render} from './utils/dom';
 
 
 const TASKS_COUNT = 15;
+const TASKS_ON_START_COUNT = 8;
+const TASKS_ON_CLICK_COUNT = 8;
+
 const tasks = generateTasksMock(TASKS_COUNT);
 
 const mainControl = document.querySelector(`.main__control`);
@@ -27,7 +30,21 @@ render(board, getSortMarkup(), `afterbegin`);
 
 const boardTasksContainer = document.querySelector(`.board__tasks`);
 render(boardTasksContainer, getFormMarkup(tasks[0]), `beforeend`);
-for (let i = 1; i < TASKS_COUNT; i++) {
-  render(boardTasksContainer, getCardMarkup(tasks[i]), `beforeend`);
-}
+
+let tasksShownCount = TASKS_ON_START_COUNT;
+
+tasks.slice(1, tasksShownCount)
+    .forEach((task) => render(boardTasksContainer, getCardMarkup(task), `beforeend`));
+
 render(board, getLoadMoreMarkup(), `beforeend`);
+const loadMoreButton = board.querySelector(`.load-more`);
+loadMoreButton.addEventListener(`click`, () => {
+  const prevTasksShownCount = tasksShownCount;
+  tasksShownCount += TASKS_ON_CLICK_COUNT;
+  tasks.slice(prevTasksShownCount, tasksShownCount)
+    .forEach((task) => render(boardTasksContainer, getCardMarkup(task), `beforeend`));
+
+  if (tasksShownCount >= tasks.length) {
+    loadMoreButton.remove();
+  }
+});
