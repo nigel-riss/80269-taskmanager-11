@@ -9,7 +9,7 @@ const getDaysRepeatMarkup = (days, repeatingDays) => {
         id="repeat-${day}-${index}"
         name="repeat"
         value="${day}"
-        checked
+        ${repeatingDays[day] ? `checked` : ``}
       />
       <label class="card__repeat-day" for="repeat-${day}-${index}"
         >${day}</label
@@ -44,7 +44,7 @@ const getColorOptionsMarkup = (colors, currentColor) => {
 
 const getFormMarkup = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
-  const repeatClass = repeatingDays.some((it) => it) ? `card--repeat` : ``;
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const daysRepeatMarkup = getDaysRepeatMarkup(DAYS, repeatingDays);
   const colorsOptionsMarkup = getColorOptionsMarkup(COLORS, color);
 

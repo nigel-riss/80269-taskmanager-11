@@ -1,13 +1,5 @@
 import {formatDateMonth, formatTime} from '../utils/time';
 
-const getRepeatClass = (repeatingDays) => {
-  const isRepeating = repeatingDays.some((day) => {
-    return Object.values(day)[0];
-  });
-
-  return isRepeating ? `card--repeat` : ``;
-}
-
 const getDatesMarkup = (date) => {
   if (!date) {
     return ``;
@@ -36,7 +28,7 @@ const isDeadlineCrossed = (date) => {
 
 const getCardMarkup = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
-  const repeatClass = getRepeatClass(repeatingDays);
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
   const deadlineClass = isDeadlineCrossed(dueDate) ? `card--deadline` : ``;
   const deadlineMarkup = getDatesMarkup(dueDate);
 

@@ -10,18 +10,16 @@ const TASKS_DESCRIPTIONS = [
 ];
 
 const generateRepeatingDays = () => {
-  let days;
+  let days = {};
 
   if (Math.random() > 0.5) {
-    days = DAYS.slice()
-      .map((day) => {
-        return {[day]: false};
-      });
+    DAYS.forEach((dayName) => {
+      days[dayName] = false;
+    })
   } else {
-    days = DAYS.slice()
-      .map((day) => {
-        return {[day]: Math.random() > 0.5};
-      });
+    DAYS.forEach((dayName) => {
+      days[dayName] = Math.random() > 0.5;
+    })
   }
 
   return days;
