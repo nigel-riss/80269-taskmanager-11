@@ -12,7 +12,7 @@ import {generateTasksMock} from './mocks/tasks';
 import {render} from './utils/dom';
 
 
-const TASKS_COUNT = 3;
+const TASKS_COUNT = 15;
 const tasks = generateTasksMock(TASKS_COUNT);
 
 const mainControl = document.querySelector(`.main__control`);
@@ -26,8 +26,8 @@ const board = document.querySelector(`.board`);
 render(board, getSortMarkup(), `afterbegin`);
 
 const boardTasksContainer = document.querySelector(`.board__tasks`);
-render(boardTasksContainer, getFormMarkup(), `beforeend`);
-for (let i = 0; i < TASKS_COUNT; i++) {
+render(boardTasksContainer, getFormMarkup(tasks[0]), `beforeend`);
+for (let i = 1; i < TASKS_COUNT; i++) {
   render(boardTasksContainer, getCardMarkup(tasks[i]), `beforeend`);
 }
 render(board, getLoadMoreMarkup(), `beforeend`);

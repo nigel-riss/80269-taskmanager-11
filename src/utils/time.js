@@ -1,20 +1,7 @@
-const months = [
-  `january`,
-  `february`,
-  `march`,
-  `april`,
-  `may`,
-  `june`,
-  `july`,
-  `august`,
-  `september`,
-  `october`,
-  `november`,
-  `december`,
-];
+import {MONTHS} from '../utils/const';
 
 export const formatDateMonth = (date) => {
-  return `${date.getDate()} ${months[date.getMonth()]}`;
+  return `${date.getDate()} ${MONTHS[date.getMonth()]}`;
 };
 
 export const formatTime = (date) => {
