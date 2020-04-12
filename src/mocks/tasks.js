@@ -15,11 +15,11 @@ const generateRepeatingDays = () => {
   if (Math.random() > 0.5) {
     DAYS.forEach((dayName) => {
       days[dayName] = false;
-    })
+    });
   } else {
     DAYS.forEach((dayName) => {
       days[dayName] = Math.random() > 0.5;
-    })
+    });
   }
 
   return days;
