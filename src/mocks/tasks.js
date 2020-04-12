@@ -1,4 +1,6 @@
-import {randomNumber, randomArrayItem} from '../utils/random';
+import {randomNumber, randomArrayItem, randomDate} from '../utils/random';
+
+const DAYS_DELTA = 7;
 
 const tasksDescriptions = [
   `Изучить теорию`,
@@ -9,11 +11,11 @@ const tasksDescriptions = [
 const generateTask = () => {
   return {
     description: randomArrayItem(tasksDescriptions),
+    dueDate: Math.random() > 0.5 ? randomDate(DAYS_DELTA) : null,
   };
 };
 
 export const generateTasksMock = (count) => {
   const tasks = Array(count).fill(undefined).map(() => generateTask());
-  console.log(tasks);
   return tasks;
 };

@@ -14,8 +14,6 @@ import {render} from './utils/dom';
 
 const TASKS_COUNT = 3;
 const tasks = generateTasksMock(TASKS_COUNT);
-console.log(tasks);
-
 
 const mainControl = document.querySelector(`.main__control`);
 render(mainControl, getMenuMarkup(), `beforeend`);

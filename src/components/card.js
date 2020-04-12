@@ -1,5 +1,24 @@
+import {formatDateMonth, formatTime} from '../utils/time';
+
+const getDatesMarkup = (date) => {
+  if (!date) {
+    return ``;
+  }
+
+  return (
+    `<div class="card__dates">
+      <div class="card__date-deadline">
+        <p class="card__input-deadline-wrap">
+          <span class="card__date">${formatDateMonth(date)}</span>
+          <span class="card__time">${formatTime(date)}</span>
+        </p>
+      </div>
+    </div>`
+  );
+};
+
 const getCardMarkup = (task) => {
-  const {description} = task;
+  const {description, dueDate} = task;
 
   return (
     `<article class="card card--black">
@@ -32,14 +51,7 @@ const getCardMarkup = (task) => {
 
           <div class="card__settings">
             <div class="card__details">
-              <div class="card__dates">
-                <div class="card__date-deadline">
-                  <p class="card__input-deadline-wrap">
-                    <span class="card__date">23 September</span>
-                    <span class="card__time">16:15</span>
-                  </p>
-                </div>
-              </div>
+              ${getDatesMarkup(dueDate)}
             </div>
           </div>
         </div>
