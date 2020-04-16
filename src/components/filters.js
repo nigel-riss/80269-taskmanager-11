@@ -17,9 +17,9 @@ const getFilterMarkup = (filter, isChecked) => {
 };
 
 const getFiltersMarkup = (filters) => {
-  const filtersMarkup = filters.map((filter, index) => {
-    return getFilterMarkup(filter, !index);
-  }).join(`\n`);
+  const filtersMarkup = filters
+    .map((filter, index) => getFilterMarkup(filter, index === 0))
+    .join(`\n`);
 
   return (
     `<section class="main__filter filter container">

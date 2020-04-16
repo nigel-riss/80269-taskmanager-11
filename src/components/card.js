@@ -1,4 +1,4 @@
-import {formatDateMonth, formatTime} from '../utils/time';
+import {formatDateMonth, formatTime12} from '../utils/time';
 
 const getDatesMarkup = (date) => {
   if (!date) {
@@ -10,26 +10,19 @@ const getDatesMarkup = (date) => {
       <div class="card__date-deadline">
         <p class="card__input-deadline-wrap">
           <span class="card__date">${formatDateMonth(date)}</span>
-          <span class="card__time">${formatTime(date)}</span>
+          <span class="card__time">${formatTime12(date)}</span>
         </p>
       </div>
     </div>`
   );
 };
 
-const isDeadlineCrossed = (date) => {
-  if (date) {
-    return date.getTime() > Date.now();
-  } else {
-    return false;
-  }
-};
-
 
 const getCardMarkup = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
-  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
-  const deadlineClass = isDeadlineCrossed(dueDate) ? `card--deadline` : ``;
+  const repeatClass = Object.values(repeatingDays)
+    .some((it) => it === true) ? `card--repeat` : ``;
+  const deadlineClass = !dueDate || dueDate.getTime() > Date.now() ? `` : `card--deadline`;
   const deadlineMarkup = getDatesMarkup(dueDate);
 
   return (

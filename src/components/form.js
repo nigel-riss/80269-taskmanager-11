@@ -1,4 +1,5 @@
 import {COLORS, DAYS} from '../utils/const';
+import {formatDateMonth, formatTime24} from '../utils/time';
 
 const getDaysRepeatMarkup = (days, repeatingDays) => {
   const daysRepeatMarkup = days.map((day, index) => {
@@ -55,7 +56,7 @@ const getDueDateMarkup = (dueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="23 September 16:15"
+          value="${formatDateMonth(dueDate)} ${formatTime24(dueDate)}"
         />
       </label>
     </fieldset>`
@@ -64,7 +65,8 @@ const getDueDateMarkup = (dueDate) => {
 
 const getFormMarkup = (task) => {
   const {description, dueDate, repeatingDays, color} = task;
-  const isRepeating = Object.values(repeatingDays).some(Boolean);
+  const isRepeating = Object.values(repeatingDays)
+    .some((it) => it === true);
   const repeatClass = isRepeating ? `card--repeat` : ``;
   const dueDateMarkup = getDueDateMarkup(dueDate);
   const daysRepeatMarkup = getDaysRepeatMarkup(DAYS, repeatingDays);

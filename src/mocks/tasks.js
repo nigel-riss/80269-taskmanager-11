@@ -37,6 +37,8 @@ const generateTask = () => {
 };
 
 export const generateTasksMock = (count) => {
-  const tasks = Array(count).fill(undefined).map(() => generateTask());
+  const tasks = Array(count)
+    .fill(undefined)
+    .map(() => generateTask());
   return tasks;
 };
