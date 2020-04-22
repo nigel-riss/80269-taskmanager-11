@@ -1,3 +1,5 @@
+import {createElement} from '../utils/dom';
+
 const getFilterMarkup = (filter, isChecked) => {
   const {title, count} = filter;
 
@@ -28,4 +30,25 @@ const getFiltersMarkup = (filters) => {
   );
 };
 
-export default getFiltersMarkup;
+export default class Filters {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getFiltersMarkup(this._filters);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
