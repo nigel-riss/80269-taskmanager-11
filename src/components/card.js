@@ -1,4 +1,8 @@
-import {formatDateMonth, formatTime12} from '../utils/time';
+import {
+  formatDateMonth,
+  formatTime12,
+} from '../utils/time';
+import {createElement} from '../utils/dom';
 
 const getDatesMarkup = (date) => {
   if (!date) {
@@ -68,4 +72,25 @@ const getCardMarkup = (task) => {
   );
 };
 
-export default getCardMarkup;
+export default class Card {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getCardMarkup(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
