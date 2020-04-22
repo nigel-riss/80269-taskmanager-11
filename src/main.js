@@ -1,43 +1,48 @@
-import getMenuMarkup from './components/menu.js';
-import getFiltersMarkup from './components/filters.js';
-import getSortMarkup from './components/sort.js';
-import getBoardMarkup from './components/board.js';
-import getFormMarkup from './components/form.js';
+import Board from './components/board.js';
 import Card from './components/card.js';
-import getLoadMoreMarkup from './components/load-more.js';
+import Filters from './components/filters.js';
+import Form from './components/form.js';
+import LoadMoreButton from './components/load-more.js';
+import Menu from './components/menu.js';
+import Sort from './components/sort.js';
 
 import {filters} from './mocks/filters';
 import {generateTasksMock} from './mocks/tasks';
 
-import {render, renderMarkup} from './utils/dom';
+import {render} from './utils/dom';
 
 
 const TASKS_COUNT = 22;
 const TASKS_ON_START_COUNT = 8;
 const TASKS_ON_CLICK_COUNT = 8;
-
 const tasks = generateTasksMock(TASKS_COUNT);
 
+
 const mainControl = document.querySelector(`.main__control`);
-renderMarkup(mainControl, getMenuMarkup(), `beforeend`);
+const menu = new Menu().getElement();
+render(mainControl, menu);
 
 const mainElement = document.querySelector(`.main`);
-renderMarkup(mainElement, getFiltersMarkup(filters), `beforeend`);
-renderMarkup(mainElement, getBoardMarkup(), `beforeend`);
+render(mainElement, new Filters(filters).getElement());
 
-const board = document.querySelector(`.board`);
-renderMarkup(board, getSortMarkup(), `afterbegin`);
+const board = new Board().getElement();
+render(mainElement, board);
+
+const sort = new Sort().getElement();
+render(board, sort);
 
 const boardTasksContainer = document.querySelector(`.board__tasks`);
-renderMarkup(boardTasksContainer, getFormMarkup(tasks[0]), `beforeend`);
+const taskEditForm = new Form(tasks[0]).getElement();
+render(boardTasksContainer, taskEditForm);
 
 let tasksShownCount = TASKS_ON_START_COUNT;
 
 tasks.slice(1, tasksShownCount)
     .forEach((task) => render(boardTasksContainer, new Card(task).getElement()));
 
-renderMarkup(board, getLoadMoreMarkup(), `beforeend`);
-const loadMoreButton = board.querySelector(`.load-more`);
+const loadMoreButton = new LoadMoreButton().getElement();
+render(board, loadMoreButton);
+
 loadMoreButton.addEventListener(`click`, () => {
   const prevTasksShownCount = tasksShownCount;
   tasksShownCount += TASKS_ON_CLICK_COUNT;

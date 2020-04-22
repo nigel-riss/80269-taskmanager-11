@@ -1,3 +1,5 @@
+import {createElement} from '../utils/dom';
+
 const getMenuMarkup = () => {
   return (
     `<section class="control__btn-wrap">
@@ -31,4 +33,24 @@ const getMenuMarkup = () => {
   );
 };
 
-export default getMenuMarkup;
+export default class Menu {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return getMenuMarkup();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

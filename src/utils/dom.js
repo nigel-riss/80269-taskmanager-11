@@ -1,5 +1,3 @@
-export const renderMarkup = (parent, markup, place) => parent.insertAdjacentHTML(place, markup);
-
 export const createElement = (markup) => {
   const element = document.createElement(`div`);
   element.innerHTML = markup;
