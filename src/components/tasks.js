@@ -1,18 +1,18 @@
 import {createElement} from '../utils/dom';
 
-const getBoardMarkup = () => {
+const getTasksMarkup = () => {
   return (
-    `<section class="board container"></section>`
+    `<div class="board__tasks"></div>`
   );
 };
 
-export default class Board {
+export default class Tasks {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return getBoardMarkup();
+    return getTasksMarkup();
   }
 
   getElement() {

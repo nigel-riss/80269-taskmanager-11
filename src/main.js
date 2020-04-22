@@ -5,6 +5,7 @@ import Form from './components/form.js';
 import LoadMoreButton from './components/load-more.js';
 import Menu from './components/menu.js';
 import Sort from './components/sort.js';
+import Tasks from './components/tasks.js';
 
 import {filters} from './mocks/filters';
 import {generateTasksMock} from './mocks/tasks';
@@ -29,16 +30,17 @@ const board = new Board().getElement();
 render(mainElement, board);
 
 const sort = new Sort().getElement();
-render(board, sort);
+render(board, sort, `afterbegin`);
 
-const boardTasksContainer = document.querySelector(`.board__tasks`);
+const tasksContainer = new Tasks().getElement();
+render(board, tasksContainer);
 const taskEditForm = new Form(tasks[0]).getElement();
-render(boardTasksContainer, taskEditForm);
+render(tasksContainer, taskEditForm);
 
 let tasksShownCount = TASKS_ON_START_COUNT;
 
 tasks.slice(1, tasksShownCount)
-    .forEach((task) => render(boardTasksContainer, new Card(task).getElement()));
+    .forEach((task) => render(tasksContainer, new Card(task).getElement()));
 
 const loadMoreButton = new LoadMoreButton().getElement();
 render(board, loadMoreButton);
@@ -47,7 +49,7 @@ loadMoreButton.addEventListener(`click`, () => {
   const prevTasksShownCount = tasksShownCount;
   tasksShownCount += TASKS_ON_CLICK_COUNT;
   tasks.slice(prevTasksShownCount, tasksShownCount)
-    .forEach((task) => render(boardTasksContainer, new Card(task).getElement()));
+    .forEach((task) => render(tasksContainer, new Card(task).getElement()));
 
   if (tasksShownCount >= tasks.length) {
     loadMoreButton.remove();
