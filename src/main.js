@@ -20,22 +20,34 @@ const tasks = generateTasksMock(TASKS_COUNT);
 
 
 const renderTask = (tasksContainer, task) => {
-  const onEditButtonClick = () => {
+  const replaceTaskToEdit = () =>
     tasksContainer.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
-  };
 
-  const onEditFormSubmit = (evt) => {
-    evt.preventDefault();
+  const replaceEditToTask = () =>
     tasksContainer.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+    if (isEscKey) {
+      replaceEditToTask();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
   };
 
   const taskComponent = new CardComponent(task);
   const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, onEditButtonClick);
+  editButton.addEventListener(`click`, () => {
+    replaceTaskToEdit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
 
   const taskEditComponent = new FormComponent(task);
   const editForm = taskEditComponent.getElement().querySelector(`form`);
-  editForm.addEventListener(`submit`, onEditFormSubmit);
+  editForm.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    replaceEditToTask();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
 
   render(tasksContainer, taskComponent.getElement());
 };
@@ -60,7 +72,7 @@ render(board, tasksContainer);
 let tasksShownCount = TASKS_ON_START_COUNT;
 
 tasks.slice(0, tasksShownCount)
-    .forEach((task) => renderTask(tasksContainer, task));
+  .forEach((task) => renderTask(tasksContainer, task));
 
 const loadMoreButton = new LoadMoreButtonComponent().getElement();
 render(board, loadMoreButton);
