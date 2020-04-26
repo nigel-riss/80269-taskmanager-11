@@ -17,8 +17,6 @@ import {render} from './utils/dom';
 const TASKS_COUNT = 22;
 const TASKS_ON_START_COUNT = 8;
 const TASKS_ON_CLICK_COUNT = 8;
-const tasks = generateTasksMock(TASKS_COUNT);
-
 
 const renderTask = (tasksContainer, task) => {
   const replaceTaskToEdit = () =>
@@ -90,6 +88,8 @@ render(mainControl, new MenuComponent().getElement());
 
 const mainElement = document.querySelector(`.main`);
 render(mainElement, new FiltersComponent(filters).getElement());
+
+const tasks = generateTasksMock(TASKS_COUNT);
 
 const boardComponent = new BoardComponent().getElement();
 render(mainElement, boardComponent);
