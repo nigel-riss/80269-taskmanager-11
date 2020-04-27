@@ -11,7 +11,7 @@ import TasksComponent from './components/tasks';
 import {filters} from './mocks/filters';
 import {generateTasksMock} from './mocks/tasks';
 
-import {render} from './utils/dom';
+import {render, replace} from './utils/dom';
 
 
 const TASKS_COUNT = 22;
@@ -20,10 +20,10 @@ const TASKS_ON_CLICK_COUNT = 8;
 
 const renderTask = (tasksContainer, task) => {
   const replaceTaskToEdit = () =>
-    tasksContainer.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+    replace(tasksContainer, taskEditComponent.getElement(), taskComponent.getElement());
 
   const replaceEditToTask = () =>
-    tasksContainer.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+    replace(tasksContainer, taskComponent.getElement(), taskEditComponent.getElement());
 
   const onEscKeyDown = (evt) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;

@@ -6,3 +6,5 @@ export const createElement = (markup) => {
 };
 
 export const render = (parent, element, place = `beforeend`) => parent.insertAdjacentElement(place, element);
+
+export const replace = (parent, newElement, oldElement) => parent.replaceChild(newElement, oldElement);
