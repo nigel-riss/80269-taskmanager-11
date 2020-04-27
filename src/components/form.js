@@ -1,6 +1,6 @@
 import {COLORS, DAYS} from '../utils/const';
 import {formatDateMonth, formatTime24} from '../utils/time';
-import {createElement} from '../utils/dom';
+import AbstractComponent from './abstract-component';
 
 const getDaysRepeatMarkup = (days, repeatingDays) => {
   const daysRepeatMarkup = days.map((day, index) => {
@@ -132,25 +132,13 @@ const getFormMarkup = (task) => {
   );
 };
 
-export default class Form {
+export default class Form extends AbstractComponent {
   constructor(task) {
+    super();
     this._task = task;
-    this._element = null;
   }
 
   getTemplate() {
     return getFormMarkup(this._task);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
