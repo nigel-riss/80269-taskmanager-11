@@ -5,6 +5,22 @@ export const createElement = (markup) => {
   return element.firstChild;
 };
 
-export const render = (parent, element, place = `beforeend`) => parent.insertAdjacentElement(place, element);
 
-export const replace = (parent, newElement, oldElement) => parent.replaceChild(newElement, oldElement);
+export const render = (parent, component, place = `beforeend`) =>
+  parent.insertAdjacentElement(place, component.getElement());
+
+
+export const replace = (newComponent, oldComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  if (parentElement && newElement && oldElement) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
+};
+
+export const remove = (component) => {
+  component.getElement().remove();
+  component.removeElement();
+};
