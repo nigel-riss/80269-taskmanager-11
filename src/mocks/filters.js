@@ -1,4 +1,4 @@
-export const filters = [
+export const filtersMock = [
   {
     title: `all`,
     count: 14,
