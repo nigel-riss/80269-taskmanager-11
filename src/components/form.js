@@ -141,4 +141,10 @@ export default class Form extends AbstractComponent {
   getTemplate() {
     return getFormMarkup(this._task);
   }
+
+  setSubmitHandler(handler) {
+    this.getElement()
+      .querySelector(`form`)
+      .addEventListener(`submit`, handler);
+  }
 }

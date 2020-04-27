@@ -81,4 +81,10 @@ export default class Card extends AbstractComponent {
   getTemplate() {
     return getCardMarkup(this._task);
   }
+
+  setEditButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, handler);
+  }
 }
