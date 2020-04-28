@@ -77,7 +77,7 @@ export default class BoardController {
         .forEach((task) => renderTask(this._tasksComponent, task));
 
       if (tasksShownCount >= tasks.length) {
-        remove(this._loadMoreButtonComponent);
+        this._loadMoreButtonComponent.removeElement();
       }
     });
   }
