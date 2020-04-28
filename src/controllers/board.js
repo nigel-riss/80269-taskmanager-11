@@ -5,7 +5,7 @@ import NoTasksComponent from '../components/no-tasks';
 import SortComponent from '../components/sort';
 import TasksComponent from '../components/tasks';
 
-import {render, replace, remove} from '../utils/dom';
+import {render, replace} from '../utils/dom';
 
 const TASKS_ON_START_COUNT = 8;
 const TASKS_ON_CLICK_COUNT = 8;
