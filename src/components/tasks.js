@@ -1,4 +1,4 @@
-import {createElement} from '../utils/dom';
+import AbstractComponent from './abstract-component';
 
 const getTasksMarkup = () => {
   return (
@@ -6,24 +6,8 @@ const getTasksMarkup = () => {
   );
 };
 
-export default class Tasks {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Tasks extends AbstractComponent {
   getTemplate() {
     return getTasksMarkup();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

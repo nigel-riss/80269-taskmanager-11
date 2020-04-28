@@ -1,4 +1,4 @@
-import {createElement} from '../utils/dom';
+import AbstractComponent from './abstract-component';
 
 const getSortMarkup = () => {
   return (
@@ -10,24 +10,8 @@ const getSortMarkup = () => {
   );
 };
 
-export default class Sort {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Sort extends AbstractComponent {
   getTemplate() {
     return getSortMarkup();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

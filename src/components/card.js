@@ -2,7 +2,7 @@ import {
   formatDateMonth,
   formatTime12,
 } from '../utils/time';
-import {createElement} from '../utils/dom';
+import AbstractComponent from './abstract-component';
 
 const getDatesMarkup = (date) => {
   if (!date) {
@@ -72,25 +72,19 @@ const getCardMarkup = (task) => {
   );
 };
 
-export default class Card {
+export default class Card extends AbstractComponent {
   constructor(task) {
+    super();
     this._task = task;
-    this._element = null;
   }
 
   getTemplate() {
     return getCardMarkup(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setEditButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, handler);
   }
 }
