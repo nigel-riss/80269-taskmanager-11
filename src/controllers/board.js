@@ -2,7 +2,7 @@ import CardComponent from '../components/card';
 import FormComponent from '../components/form';
 import LoadMoreButtonComponent from '../components/load-more';
 import NoTasksComponent from '../components/no-tasks';
-import SortComponent from '../components/sort';
+import SortComponent, {SortType} from '../components/sort';
 import TasksComponent from '../components/tasks';
 
 import {render, replace} from '../utils/dom';
@@ -43,6 +43,24 @@ const renderTask = (tasksComponent, task) => {
 };
 
 
+const getSortedTasks = (tasks, sortType, from, to) => {
+  const sortedTasks = tasks.slice();
+
+  switch (sortType) {
+    case SortType.DATE_UP:
+      sortedTasks.sort((a, b) => a.dueDate - b.dueDate);
+      break;
+    case SortType.DATE_DOWN:
+      sortedTasks.sort((a, b) => b.dueDate - a.dueDate);
+      break;
+    case SortType.DEFAULT:
+      break;
+  }
+
+  return sortedTasks.slice(from, to);
+};
+
+
 export default class BoardController {
   constructor(container) {
     this._container = container;
@@ -54,6 +72,27 @@ export default class BoardController {
   }
 
   render(tasks) {
+    const renderLoadMoreButton = () => {
+      if (tasksShownCount >= tasks.length) {
+        return;
+      }
+
+      render(this._container.getElement(), this._loadMoreButtonComponent);
+
+      this._loadMoreButtonComponent.setClickHandler(() => {
+        const prevTasksShownCount = tasksShownCount;
+        tasksShownCount += TASKS_ON_CLICK_COUNT;
+
+        const sortedTasks = getSortedTasks(tasks, this._sortComponent.getSortType(), prevTasksShownCount, tasksShownCount);
+
+        sortedTasks.forEach((task) => renderTask(this._tasksComponent, task));
+
+        if (tasksShownCount >= tasks.length) {
+          this._loadMoreButtonComponent.removeElement();
+        }
+      });
+    };
+
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
     if (isAllTasksArchived || tasks.length === 0) {
@@ -68,17 +107,19 @@ export default class BoardController {
     tasks.slice(0, tasksShownCount)
       .forEach((task) => renderTask(this._tasksComponent, task));
 
-    render(this._container.getElement(), this._loadMoreButtonComponent);
+    renderLoadMoreButton();
 
-    this._loadMoreButtonComponent.setClickHandler(() => {
-      const prevTasksShownCount = tasksShownCount;
-      tasksShownCount += TASKS_ON_CLICK_COUNT;
-      tasks.slice(prevTasksShownCount, tasksShownCount)
-        .forEach((task) => renderTask(this._tasksComponent, task));
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      tasksShownCount = TASKS_ON_CLICK_COUNT;
 
-      if (tasksShownCount >= tasks.length) {
-        this._loadMoreButtonComponent.removeElement();
-      }
+      const sortedTasks = getSortedTasks(tasks, sortType, 0, tasksShownCount);
+
+      // Взял с репо академии, но вообще-то не очень чистый способ удаления компонентов
+      this._tasksComponent.getElement().innerHTML = ``;
+
+      sortedTasks.forEach((task) => renderTask(this._tasksComponent, task));
+
+      renderLoadMoreButton();
     });
   }
 }
