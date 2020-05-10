@@ -72,7 +72,7 @@ const getCardMarkup = (task) => {
   );
 };
 
-export default class Card extends AbstractComponent {
+export default class Task extends AbstractComponent {
   constructor(task) {
     super();
     this._task = task;

@@ -1,5 +1,5 @@
-import CardComponent from '../components/card';
-import FormComponent from '../components/form';
+import TaskComponent from '../components/task';
+import TaskEditComponent from '../components/task-edit';
 import LoadMoreButtonComponent from '../components/load-more';
 import NoTasksComponent from '../components/no-tasks';
 import SortComponent, {SortType} from '../components/sort';
@@ -26,13 +26,13 @@ const renderTask = (tasksComponent, task) => {
     }
   };
 
-  const taskComponent = new CardComponent(task);
+  const taskComponent = new TaskComponent(task);
   taskComponent.setEditButtonClickHandler(() => {
     replaceTaskToEdit();
     document.addEventListener(`keydown`, onEscKeyDown);
   });
 
-  const taskEditComponent = new FormComponent(task);
+  const taskEditComponent = new TaskEditComponent(task);
   taskEditComponent.setSubmitHandler((evt) => {
     evt.preventDefault();
     replaceEditToTask();

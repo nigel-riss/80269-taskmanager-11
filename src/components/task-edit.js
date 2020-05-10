@@ -132,7 +132,7 @@ const getFormMarkup = (task) => {
   );
 };
 
-export default class Form extends AbstractComponent {
+export default class TaskEdit extends AbstractComponent {
   constructor(task) {
     super();
     this._task = task;
