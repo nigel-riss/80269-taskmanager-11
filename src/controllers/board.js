@@ -12,9 +12,9 @@ const TASKS_ON_START_COUNT = 8;
 const TASKS_ON_CLICK_COUNT = 8;
 
 
-const renderTasks = (taskListElement, tasks) => {
+const renderTasks = (taskListElement, tasks, onDataChange) => {
   return tasks.map((task) => {
-    const taskController = new TaskController(taskListElement);
+    const taskController = new TaskController(taskListElement, onDataChange);
     taskController.render(task);
     return taskController;
   });
@@ -50,6 +50,7 @@ export default class BoardController {
     this._tasksComponent = new TasksComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
 
+    this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange);
   }
@@ -68,7 +69,7 @@ export default class BoardController {
     render(container, this._sortComponent);
     render(container, this._tasksComponent);
 
-    const newTasks = renderTasks(this._tasksComponent.getElement(), this._tasks.slice(0, this._tasksShownCount));
+    const newTasks = renderTasks(this._tasksComponent.getElement(), this._tasks.slice(0, this._tasksShownCount), this._onDataChange);
     this._shownTaskControllers = this._shownTaskControllers.concat(newTasks);
 
     this._renderLoadMoreButton();
@@ -91,7 +92,7 @@ export default class BoardController {
           prevTasksShownCount,
           this._tasksShownCount
       );
-      const newTasks = renderTasks(this._tasksComponent.getElement(), sortedTasks);
+      const newTasks = renderTasks(this._tasksComponent.getElement(), sortedTasks, this._onDataChange);
       this._shownTaskControllers = this._shownTaskControllers.concat(newTasks);
 
       if (this._tasksShownCount >= this._tasks.length) {
@@ -108,8 +109,19 @@ export default class BoardController {
     // Взял с репо академии, но вообще-то не очень чистый способ удаления компонентов
     this._tasksComponent.getElement().innerHTML = ``;
 
-    renderTasks(this._tasksComponent.getElement(), sortedTasks);
+    renderTasks(this._tasksComponent.getElement(), sortedTasks, this._onDataChange);
 
     this._renderLoadMoreButton();
+  }
+
+  _onDataChange(taskController, oldData, newData) {
+    const index = this._tasks.findIndex((it) => it === oldData);
+    if (index === -1) {
+      return;
+    }
+
+    this._tasks[index] = newData;
+
+    taskController.render(this._tasks[index]);
   }
 }
