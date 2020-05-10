@@ -5,7 +5,7 @@ import TasksComponent from '../components/tasks';
 
 import TaskController from '../controllers/task';
 
-import {render} from '../utils/dom';
+import {render, remove} from '../utils/dom';
 
 
 const TASKS_ON_START_COUNT = 8;
@@ -96,7 +96,7 @@ export default class BoardController {
       this._shownTaskControllers = this._shownTaskControllers.concat(newTasks);
 
       if (this._tasksShownCount >= this._tasks.length) {
-        this._loadMoreButtonComponent.removeElement();
+        remove(this._loadMoreButtonComponent);
       }
     });
   }
