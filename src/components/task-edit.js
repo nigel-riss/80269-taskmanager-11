@@ -64,13 +64,18 @@ const getDueDateMarkup = (dueDate) => {
   );
 };
 
-const getFormMarkup = (task) => {
-  const {description, dueDate, repeatingDays, color} = task;
-  const isRepeating = Object.values(repeatingDays)
+const isRepeating = (repeatingDays) => {
+  return Object.values(repeatingDays)
     .some((it) => it === true);
-  const repeatClass = isRepeating ? `card--repeat` : ``;
-  const dueDateMarkup = getDueDateMarkup(dueDate);
-  const daysRepeatMarkup = getDaysRepeatMarkup(DAYS, repeatingDays);
+};
+
+const getFormMarkup = (task, options = {}) => {
+  const {description, dueDate, color} = task;
+  const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
+
+  const repeatClass = isRepeatingTask ? `card--repeat` : ``;
+  const dueDateMarkup = isDateShowing ? getDueDateMarkup(dueDate) : ``;
+  const daysRepeatMarkup = getDaysRepeatMarkup(DAYS, activeRepeatingDays);
   const colorsOptionsMarkup = getColorOptionsMarkup(COLORS, color);
 
   return (
@@ -103,12 +108,12 @@ const getFormMarkup = (task) => {
                 ${dueDateMarkup}
 
                 <button class="card__repeat-toggle" type="button">
-                  repeat:<span class="card__repeat-status">${isRepeating ? `yes` : `no`}</span>
+                  repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
                 </button>
 
                 <fieldset class="card__repeat-days">
                   <div class="card__repeat-days-inner">
-                    ${isRepeating ? daysRepeatMarkup : ``}
+                    ${isRepeatingTask ? daysRepeatMarkup : ``}
                   </div>
                 </fieldset>
               </div>
@@ -136,13 +141,20 @@ export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
     super();
     this._task = task;
+    this._isDateShowing = !!task.dueDate;
+    this._isRepeatingTask = isRepeating(task.repeatingDays);
+    this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._submitHandler = null;
 
     this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return getFormMarkup(this._task);
+    return getFormMarkup(this._task, {
+      isDateShowing: this._isDateShowing,
+      isRepeatingTask: this._isRepeatingTask,
+      activeRepeatingDays: this._activeRepeatingDays,
+    });
   }
 
   setSubmitHandler(handler) {
