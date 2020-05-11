@@ -187,7 +187,7 @@ export default class TaskEdit extends AbstractSmartComponent {
 
     const repeatDays = element.querySelector(`.card__repeat-days`);
     if (repeatDays) {
-      repeatDays.addEventListener(`click`, (evt) => {
+      repeatDays.addEventListener(`change`, (evt) => {
         this._activeRepeatingDays[evt.target.value] = evt.target.checked;
         this.rerender();
       });
