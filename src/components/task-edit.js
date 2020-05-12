@@ -45,9 +45,7 @@ const getColorOptionsMarkup = (colors, currentColor) => {
 };
 
 const getDueDateMarkup = (dueDate) => {
-  if (!dueDate) {
-    return ``;
-  }
+  const dateValue = dueDate ? `${formatDateMonth(dueDate)} ${formatTime24(dueDate)}` : ``;
 
   return (
     `<fieldset class="card__date-deadline">
@@ -57,7 +55,7 @@ const getDueDateMarkup = (dueDate) => {
           type="text"
           placeholder=""
           name="date"
-          value="${formatDateMonth(dueDate)} ${formatTime24(dueDate)}"
+          value="${dateValue}"
         />
       </label>
     </fieldset>`
@@ -72,6 +70,7 @@ const isRepeating = (repeatingDays) => {
 const getFormMarkup = (task, options = {}) => {
   const {description, dueDate, color} = task;
   const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
+  const isBlockSaveButton = (isDateShowing && isRepeatingTask) || (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
   const dueDateMarkup = isDateShowing ? getDueDateMarkup(dueDate) : ``;
@@ -102,7 +101,7 @@ const getFormMarkup = (task, options = {}) => {
             <div class="card__details">
               <div class="card__dates">
                 <button class="card__date-deadline-toggle" type="button">
-                  date: <span class="card__date-status">${dueDate ? `yes` : `no`}</span>
+                  date: <span class="card__date-status">${isDateShowing ? `yes` : `no`}</span>
                 </button>
 
                 ${dueDateMarkup}
@@ -128,7 +127,7 @@ const getFormMarkup = (task, options = {}) => {
           </div>
 
           <div class="card__status-btns">
-            <button class="card__save" type="submit">save</button>
+            <button class="card__save" type="submit" ${isBlockSaveButton ? `disabled` : ``}>save</button>
             <button class="card__delete" type="button">delete</button>
           </div>
         </div>
@@ -157,17 +156,24 @@ export default class TaskEdit extends AbstractSmartComponent {
     });
   }
 
+  recoveryListeners() {
+    this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
+  reset() {
+    this._isDateShowing = !!this._task.dueDate;
+    this._isRepeatingTask = isRepeating(this._task.repeatingDays);
+    this._activeRepeatingDays = Object.assign({}, this._task.repeatingDays);
+    this.rerender();
+  }
+
   setSubmitHandler(handler) {
     this.getElement()
       .querySelector(`form`)
       .addEventListener(`submit`, handler);
 
     this._submitHandler = handler;
-  }
-
-  recoveryListeners() {
-    this.setSubmitHandler(this._submitHandler);
-    this._subscribeOnEvents();
   }
 
   _subscribeOnEvents() {

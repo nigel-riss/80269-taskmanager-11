@@ -12,9 +12,9 @@ const TASKS_ON_START_COUNT = 8;
 const TASKS_ON_CLICK_COUNT = 8;
 
 
-const renderTasks = (taskListElement, tasks, onDataChange) => {
+const renderTasks = (taskListElement, tasks, onDataChange, onViewChange) => {
   return tasks.map((task) => {
-    const taskController = new TaskController(taskListElement, onDataChange);
+    const taskController = new TaskController(taskListElement, onDataChange, onViewChange);
     taskController.render(task);
     return taskController;
   });
@@ -51,6 +51,7 @@ export default class BoardController {
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange);
   }
@@ -69,7 +70,12 @@ export default class BoardController {
     render(container, this._sortComponent);
     render(container, this._tasksComponent);
 
-    const newTasks = renderTasks(this._tasksComponent.getElement(), this._tasks.slice(0, this._tasksShownCount), this._onDataChange);
+    const newTasks = renderTasks(
+        this._tasksComponent.getElement(),
+        this._tasks.slice(0, this._tasksShownCount),
+        this._onDataChange,
+        this._onViewChange
+    );
     this._shownTaskControllers = this._shownTaskControllers.concat(newTasks);
 
     this._renderLoadMoreButton();
@@ -92,7 +98,12 @@ export default class BoardController {
           prevTasksShownCount,
           this._tasksShownCount
       );
-      const newTasks = renderTasks(this._tasksComponent.getElement(), sortedTasks, this._onDataChange);
+      const newTasks = renderTasks(
+          this._tasksComponent.getElement(),
+          sortedTasks,
+          this._onDataChange,
+          this._onViewChange
+      );
       this._shownTaskControllers = this._shownTaskControllers.concat(newTasks);
 
       if (this._tasksShownCount >= this._tasks.length) {
@@ -109,7 +120,13 @@ export default class BoardController {
     // Взял с репо академии, но вообще-то не очень чистый способ удаления компонентов
     this._tasksComponent.getElement().innerHTML = ``;
 
-    renderTasks(this._tasksComponent.getElement(), sortedTasks, this._onDataChange);
+    const newTasks = renderTasks(
+        this._tasksComponent.getElement(),
+        sortedTasks,
+        this._onDataChange,
+        this._onViewChange
+    );
+    this._shownTaskControllers = newTasks;
 
     this._renderLoadMoreButton();
   }
@@ -120,8 +137,14 @@ export default class BoardController {
       return;
     }
 
-    this._tasks[index] = newData;
+    // this._tasks[index] = newData;
+    this._tasks = [].concat(this._tasks.slice(0, index), newData, this._tasks.slice(index + 1));
 
     taskController.render(this._tasks[index]);
+  }
+
+  _onViewChange() {
+    this._shownTaskControllers
+      .forEach((it) => it.setDefaultView());
   }
 }
