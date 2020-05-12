@@ -22,6 +22,18 @@ const getDatesMarkup = (date) => {
 };
 
 
+const getButtonMarkup = (name, isActive = true) => {
+  return (
+    `<button
+      type="button"
+      class="card__btn card__btn--${name} ${isActive ? `` : `card__btn--disabled`}"
+    >
+      ${name}
+    </button>`
+  );
+};
+
+
 const getCardMarkup = (task) => {
   const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
   const repeatClass = Object.values(repeatingDays)
@@ -34,21 +46,9 @@ const getCardMarkup = (task) => {
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit">
-              edit
-            </button>
-            <button 
-              type="button"
-              class="card__btn card__btn--archive ${isArchive ? `card__btn--disabled` : ``}"
-            >
-              archive
-            </button>
-            <button
-              type="button"
-              class="card__btn card__btn--favorites ${isFavorite ? `card__btn--disabled` : ``}"
-            >
-              favorites
-            </button>
+            ${getButtonMarkup(`edit`)}
+            ${getButtonMarkup(`archive`, !isArchive)}
+            ${getButtonMarkup(`favorites`, !isFavorite)}
           </div>
 
           <div class="card__color-bar">
@@ -72,7 +72,7 @@ const getCardMarkup = (task) => {
   );
 };
 
-export default class Card extends AbstractComponent {
+export default class Task extends AbstractComponent {
   constructor(task) {
     super();
     this._task = task;
@@ -85,6 +85,18 @@ export default class Card extends AbstractComponent {
   setEditButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.card__btn--favorites`)
+      .addEventListener(`click`, handler);
+  }
+
+  setArchiveButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.card__btn--archive`)
       .addEventListener(`click`, handler);
   }
 }
