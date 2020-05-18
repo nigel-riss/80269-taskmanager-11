@@ -13,4 +13,12 @@ module.exports = {
     port: 1337,
     watchContentBase: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
 };
