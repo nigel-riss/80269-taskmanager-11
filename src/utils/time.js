@@ -1,17 +1,8 @@
-import {MONTHS} from '../utils/const';
+import moment from 'moment';
 
-const zeroPad2Digit = (value) => value < 10 ? `0${value}` : String(value);
 
-export const formatDateMonth = (date) => {
-  return `${date.getDate()} ${MONTHS[date.getMonth()]}`;
-};
+export const formatDateMonth = (date) => moment(date).format(`D MMMM`);
 
-export const formatTime12 = (date) => {
-  const hours = zeroPad2Digit(date.getHours() % 12);
-  const minutes = zeroPad2Digit(date.getMinutes());
-  const interval = date.getHours() > 11 ? `PM` : `AM`;
+export const formatTime12 = (date) => moment(date).format(`LT`);
 
-  return `${hours}:${minutes} ${interval}`;
-};
-
-export const formatTime24 = (date) => `${zeroPad2Digit(date.getHours())}:${zeroPad2Digit(date.getMinutes())}`;
+export const formatTime24 = (date) => moment(date).format(`hh:mm`);
