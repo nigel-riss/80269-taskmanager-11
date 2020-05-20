@@ -2,7 +2,7 @@ import BoardComponent from './components/board';
 import BoardController from './controllers/board';
 import FiltersComponent from './components/filters';
 import MenuComponent from './components/menu';
-
+import TasksModel from './models/tasks';
 import {filtersMock} from './mocks/filters';
 import {generateTasksMock} from './mocks/tasks';
 
@@ -19,9 +19,11 @@ const mainElement = document.querySelector(`.main`);
 render(mainElement, new FiltersComponent(filtersMock));
 
 const tasks = generateTasksMock(TASKS_COUNT);
+const tasksModel = new TasksModel();
+tasksModel.setTasks(tasks);
 
 const boardComponent = new BoardComponent();
-const boardController = new BoardController(boardComponent);
+const boardController = new BoardController(boardComponent, tasksModel);
 
 render(mainElement, boardComponent);
 boardController.render(tasks);
