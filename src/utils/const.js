@@ -15,3 +15,12 @@ export const DAYS = [
   `sa`,
   `su`,
 ];
+
+export const FilterType = {
+  ALL: `all`,
+  ARCHIVE: `archive`,
+  FAVORITES: `favorites`,
+  OVERDUE: `overdue`,
+  REPEATING: `repeating`,
+  TODAY: `today`,
+};

@@ -1,12 +1,27 @@
+import {getTasksByFilter} from '../utils/filter';
+import {FilterType} from '../utils/const';
+
+
 export default class Tasks {
   constructor() {
     this._tasks = [];
+    this._activeFilterType = FilterType.All;
 
     this._dataChangeHandlers = [];
+    this._filterChangeHandlers = [];
   }
 
   getTasks() {
+    return getTasksByFilter(this._tasks, this._activeFilterType);
+  }
+
+  getAllTasks() {
     return this._tasks;
+  }
+
+  setFilter(filterType) {
+    this._activeFilterType = filterType;
+    this._callHandlers(this._filterChangeHandlers);
   }
 
   setTasks(tasks) {
@@ -17,7 +32,7 @@ export default class Tasks {
   updateTask(id, task) {
     const index = this._tasks.findIndex((it) => it.id === id);
     if (index === -1) {
-      return;
+      return false;
     }
 
     this._tasks = [].concat(this._tasks.slice(0, index), task, this._tas.slice(index + 1));
@@ -25,6 +40,14 @@ export default class Tasks {
     this._callHandlers(this._dataChangeHandlers);
 
     return true;
+  }
+
+  setDataChangeHandler(handler) {
+    this._dataChangeHandlers.push(handler);
+  }
+
+  setFilterChangeHandler(handler) {
+    this._filterChangeHandlers.push(handler);
   }
 
   _callHandlers(handlers) {
