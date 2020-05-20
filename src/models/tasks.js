@@ -5,7 +5,7 @@ import {FilterType} from '../utils/const';
 export default class Tasks {
   constructor() {
     this._tasks = [];
-    this._activeFilterType = FilterType.All;
+    this._activeFilterType = FilterType.ALL;
 
     this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];

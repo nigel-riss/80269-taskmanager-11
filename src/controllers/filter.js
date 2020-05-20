@@ -14,10 +14,12 @@ export default class FilterController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+
+    this._tasksModel.setDataChangeHandler(this._onDataChange);
   }
 
   render() {
-    const allTasks = this._tasksModel.getTasks();
+    const allTasks = this._tasksModel.getAllTasks();
     const filters = Object.values(FilterType)
       .map((filterType) => {
         return {
@@ -26,6 +28,8 @@ export default class FilterController {
           checked: filterType === this._activeFilterType,
         };
       });
+
+    console.log(filters);
 
     const oldComponent = this._filterComponent;
     this._filterComponent = new FilterComponent(filters);
@@ -44,6 +48,7 @@ export default class FilterController {
   }
 
   _onFilterChange(filterType) {
+    this._tasksModel.setFilter(filterType);
     this._activeFilterType = filterType;
   }
 }
