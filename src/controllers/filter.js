@@ -29,7 +29,6 @@ export default class FilterController {
         };
       });
 
-    console.log(filters);
 
     const oldComponent = this._filterComponent;
     this._filterComponent = new FilterComponent(filters);

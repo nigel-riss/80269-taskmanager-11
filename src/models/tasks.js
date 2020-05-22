@@ -35,7 +35,7 @@ export default class Tasks {
       return false;
     }
 
-    this._tasks = [].concat(this._tasks.slice(0, index), task, this._tas.slice(index + 1));
+    this._tasks = [].concat(this._tasks.slice(0, index), task, this._tasks.slice(index + 1));
 
     this._callHandlers(this._dataChangeHandlers);
 
