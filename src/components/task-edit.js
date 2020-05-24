@@ -1,5 +1,6 @@
 import {COLORS, DAYS} from '../utils/const';
 import {formatDateMonth, formatTime24} from '../utils/time';
+import {isRepeating, isOverdueDate} from '../utils/common';
 import AbstractSmartComponent from './abstract-smart-component';
 
 import flatpickr from 'flatpickr';
@@ -65,23 +66,20 @@ const getDueDateMarkup = (dueDate) => {
   );
 };
 
-const isRepeating = (repeatingDays) => {
-  return Object.values(repeatingDays)
-    .some((it) => it === true);
-};
-
 const getFormMarkup = (task, options = {}) => {
   const {description, dueDate, color} = task;
   const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
   const isBlockSaveButton = (isDateShowing && isRepeatingTask) || (isRepeatingTask && !isRepeating(activeRepeatingDays));
 
   const repeatClass = isRepeatingTask ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
   const dueDateMarkup = isDateShowing ? getDueDateMarkup(dueDate) : ``;
   const daysRepeatMarkup = getDaysRepeatMarkup(DAYS, activeRepeatingDays);
   const colorsOptionsMarkup = getColorOptionsMarkup(COLORS, color);
 
   return (
-    `<article class="card card--edit card--${color} ${repeatClass}">
+    `<article class="card card--edit card--${color} ${repeatClass} ${deadlineClass}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">

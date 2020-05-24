@@ -46,6 +46,7 @@ export default class BoardController {
     this._onViewChange = this._onViewChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
+    this._onLoadMoreButtonClick = this._onLoadMoreButtonClick.bind(this);
     this._sortComponent.setSortTypeChangeHandler(this._onSortTypeChange);
     this._tasksModel.setFilterChangeHandler(this._onFilterChange);
   }
@@ -104,22 +105,7 @@ export default class BoardController {
 
     render(this._container.getElement(), this._loadMoreButtonComponent);
 
-    this._loadMoreButtonComponent.setClickHandler(() => {
-      const prevTasksShownCount = this._shownTasksCount;
-      this._shownTasksCount += TASKS_ON_CLICK_COUNT;
-
-      const sortedTasks = getSortedTasks(
-          this._tasksModel.getTasks(),
-          this._sortComponent.getSortType(),
-          prevTasksShownCount,
-          this._shownTasksCount
-      );
-      this._renderTasks(sortedTasks);
-
-      if (this._shownTasksCount >= this._tasksModel.getTasks().length) {
-        remove(this._loadMoreButtonComponent);
-      }
-    });
+    this._loadMoreButtonComponent.setClickHandler(this._onLoadMoreButtonClick);
   }
 
   _onSortTypeChange(sortType) {
@@ -135,7 +121,7 @@ export default class BoardController {
     // Взял с репо академии, но вообще-то не очень чистый способ удаления компонентов
     this._tasksComponent.getElement().innerHTML = ``;
 
-    this._shownTaskControllers = [];
+    this._removeTasks();
     this._renderTasks(sortedTasks);
 
     this._renderLoadMoreButton();
@@ -155,5 +141,22 @@ export default class BoardController {
 
   _onFilterChange() {
     this._updateTasks(TASKS_ON_START_COUNT);
+  }
+
+  _onLoadMoreButtonClick() {
+    const prevTasksShownCount = this._shownTasksCount;
+    this._shownTasksCount += TASKS_ON_CLICK_COUNT;
+
+    const sortedTasks = getSortedTasks(
+        this._tasksModel.getTasks(),
+        this._sortComponent.getSortType(),
+        prevTasksShownCount,
+        this._shownTasksCount
+    );
+    this._renderTasks(sortedTasks);
+
+    if (this._shownTasksCount >= this._tasksModel.getTasks().length) {
+      remove(this._loadMoreButtonComponent);
+    }
   }
 }

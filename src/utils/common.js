@@ -1,7 +1,8 @@
 import moment from 'moment';
 
 export const isRepeating = (repeatingDays) => {
-  return Object.values(repeatingDays).some((it) => it === true);
+  return Object.values(repeatingDays)
+    .some((it) => it === true);
 };
 
 export const isOverdueDate = (dueDate, date) => {
