@@ -1,8 +1,10 @@
+import AbstractComponent from './abstract-component';
 import {
   formatDateMonth,
   formatTime12,
 } from '../utils/time';
-import AbstractComponent from './abstract-component';
+import {isRepeating, isOverdueDate} from '../utils/common';
+import {encode} from 'he';
 
 const getDatesMarkup = (date) => {
   if (!date) {
@@ -35,10 +37,20 @@ const getButtonMarkup = (name, isActive = true) => {
 
 
 const getCardMarkup = (task) => {
-  const {description, dueDate, repeatingDays, color, isFavorite, isArchive} = task;
-  const repeatClass = Object.values(repeatingDays)
-    .some((it) => it === true) ? `card--repeat` : ``;
-  const deadlineClass = !dueDate || dueDate.getTime() > Date.now() ? `` : `card--deadline`;
+  const {
+    description: notSanitizedDescription,
+    dueDate,
+    repeatingDays,
+    color,
+    isFavorite,
+    isArchive
+  } = task;
+
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
+
+  const description = encode(notSanitizedDescription);
+  const repeatClass = isRepeating(repeatingDays) ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
   const deadlineMarkup = getDatesMarkup(dueDate);
 
   return (
