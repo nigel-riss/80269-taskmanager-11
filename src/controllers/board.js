@@ -81,6 +81,14 @@ export default class BoardController {
     this._creatingTask.render(EmptyTask, TaskControllerMode.ADDING);
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
   _removeTasks() {
     this._shownTaskControllers.forEach((taskController) => taskController.destroy());
     this._shownTaskControllers = [];
